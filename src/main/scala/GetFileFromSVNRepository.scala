@@ -1,18 +1,16 @@
 import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream
-import java.lang.reflect.Array
 import java.util.Collections
-import org.apache.commons.io._
 import java.io.{ByteArrayInputStream, File}
-import scala.file.Path
 
-import org.tmatesoft.svn.core.io.SVNRepository
+import org.apache.commons.io.FileUtils
+
 import org.tmatesoft.svn.core.SVNURL
-import org.tmatesoft.svn.core.SVNDepth
-import org.tmatesoft.svn.core.SVNDirEntry
-import org.tmatesoft.svn.core.SVNNodeKind
 import org.tmatesoft.svn.core.SVNProperties
-import org.tmatesoft.svn.core.io.SVNRepositoryFactory
+import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager
 import org.tmatesoft.svn.core.internal.io.dav.DAVRepositoryFactory
+import org.tmatesoft.svn.core.io.SVNRepository
+import org.tmatesoft.svn.core.io.SVNRepositoryFactory
+import org.tmatesoft.svn.core.wc.SVNWCUtil
 
 class GetFileFromSVNRepository {
 
@@ -44,7 +42,7 @@ class GetFileFromSVNRepository {
     }
 
     //SVNに対して、ファイルパスとリビジョンを指定してバイナリデータを要求する
-    val out: ByteArrayInputStream = new ByteOutputStream()
+    val out: ByteOutputStream = new ByteOutputStream()
     var data: Array[Byte] = null
 
     repository.getFile(
@@ -58,7 +56,7 @@ class GetFileFromSVNRepository {
     data = out.toByteArray
 
     //TODO scalaxを利用しないようする（commons-langを利用する）
-    val buf = Path("work", (new File(filePath)).getName)
+    val buf = scalax.file.Path("work", (new File(filePath)).getName)
     buf.write(data)
   }
 }
