@@ -82,7 +82,7 @@ class GetFileFromSVNRepository {
 
     repository.getDir(
       filePath,
-      repository.getLatestRevision,
+      revision,
       SVNProperties.wrap(java.util.Collections.EMPTY_MAP),
       dirEntries
     )
